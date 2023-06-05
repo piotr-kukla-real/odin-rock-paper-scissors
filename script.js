@@ -19,3 +19,8 @@ function getComputerChoice() {
 
     return choice;
 }
+
+const checkSelection = selection =>
+    selection == ROCK ||
+    selection == PAPER ||
+    selection == SCISSORS;
