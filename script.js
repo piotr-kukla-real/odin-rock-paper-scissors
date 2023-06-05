@@ -94,3 +94,22 @@ function playRound(playerSelection, computerSelection) {
 
     afterRound(winner, playerSelection, computerSelection);
 }
+
+function printFinalResult() {
+    let result;
+
+    if (playerScore > computerScore) {
+        result = "Congratulations! You Win!";
+    } else if (playerScore < computerScore) {
+        result = "You Lose!";
+    } else {
+        result = "Its Tie!";
+    }
+
+    console.log(`
+Player ${playerScore} - Computer ${computerScore}
+
+${result}
+
+`);
+}
