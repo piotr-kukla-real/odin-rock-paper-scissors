@@ -75,3 +75,16 @@ function getWinner(playerSelection, computerSelection) {
 
     return winner;
 }
+
+// print result and add score
+function afterRound(winner, playerSelection, computerSelection) {
+    if (winner == PLAYER) {
+        console.log(`You Win! ${playerSelection} beats ${computerSelection}!`);
+        playerScore++;
+    } else if (winner == COMPUTER) {
+        console.log(`You Lose! ${computerSelection} beats ${playerSelection}!`);
+        computerScore++;
+    } else {
+        console.log("It's Tie!");
+    }
+}
