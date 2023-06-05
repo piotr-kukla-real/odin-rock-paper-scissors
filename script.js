@@ -118,3 +118,20 @@ function resetScore() {
     playerScore = 0;
     computerScore = 0;
 }
+
+// play 5 rounds
+function game() {
+    for (let i = 0; i < 5; i++) {
+        const playerChoice = getPlayerChoice();
+        if (!playerChoice) {
+            return;
+        }
+
+        const computerChoice = getComputerChoice();
+
+        playRound(playerChoice, computerChoice);
+    }
+
+    printFinalResult();
+    resetScore();
+}
