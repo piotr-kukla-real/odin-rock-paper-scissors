@@ -88,3 +88,9 @@ function afterRound(winner, playerSelection, computerSelection) {
         console.log("It's Tie!");
     }
 }
+
+function playRound(playerSelection, computerSelection) {
+    const winner = getWinner(playerSelection, computerSelection);
+
+    afterRound(winner, playerSelection, computerSelection);
+}
