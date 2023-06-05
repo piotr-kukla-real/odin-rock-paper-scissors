@@ -135,3 +135,9 @@ function game() {
     printFinalResult();
     resetScore();
 }
+
+// start game
+let playerScore = 0,
+    computerScore = 0;
+
+game();
