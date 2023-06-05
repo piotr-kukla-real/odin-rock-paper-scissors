@@ -1,6 +1,9 @@
 const ROCK = "ROCK",
       PAPER = "PAPER",
-      SCISSORS = "SCISSORS";
+      SCISSORS = "SCISSORS",
+      PLAYER = "PLAYER",
+      COMPUTER = "COMPUTER";
+
 
 function getComputerChoice() {
     let random = Math.floor(Math.random() * 3);
@@ -44,4 +47,31 @@ function getPlayerChoice() {
 
         promptMessage = "You can pick only ROCK, PAPER or SCISSORS";
     }
+}
+
+// takes uppercased player and computer choice and return winner
+function getWinner(playerSelection, computerSelection) {
+    let winner = null;
+
+    if (playerSelection == ROCK) {
+        if (computerSelection == PAPER) {
+            winner = COMPUTER;
+        } else if (computerSelection == SCISSORS) {
+            winner = PLAYER;
+        }
+    } else if (playerSelection == PAPER) {
+        if (computerSelection == ROCK) {
+            winner = PLAYER;
+        } else if (computerSelection == SCISSORS) {
+            winner = COMPUTER;
+        }
+    } else {
+        if (computerSelection == PAPER) {
+            winner = PLAYER;
+        } else if (computerSelection == ROCK) {
+            winner = COMPUTER;
+        }
+    }
+
+    return winner;
 }
