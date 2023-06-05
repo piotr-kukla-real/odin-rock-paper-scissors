@@ -113,3 +113,8 @@ ${result}
 
 `);
 }
+
+function resetScore() {
+    playerScore = 0;
+    computerScore = 0;
+}
