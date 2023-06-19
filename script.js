@@ -4,6 +4,21 @@ const ROCK = "ROCK",
       PLAYER = "PLAYER",
       COMPUTER = "COMPUTER";
 
+// elements
+const scoreOutput = document.querySelector(".score");
+const roundResultOutput = document.querySelector(".round-result");
+const finalResultOutput = document.querySelector(".final-result");
+
+// global variables
+let playerScore = 0,
+    computerScore = 0,
+    requireReset = false;
+
+function resetGame() {
+    playerScore = 0;
+    computerScore = 0;
+    finalResultOutput.textContent = "";
+}
 
 function getComputerChoice() {
     let random = Math.floor(Math.random() * 3);
@@ -21,32 +36,6 @@ function getComputerChoice() {
         }
 
     return choice;
-}
-
-const checkSelection = selection =>
-    selection == ROCK ||
-    selection == PAPER ||
-    selection == SCISSORS;
-
-// get player choice, loop until it is valid, return null if canceled
-function getPlayerChoice() {
-    let promptMessage = "Your pick";
-
-    while (true) {
-        let choice = prompt(promptMessage);
-
-        if (choice === null) {
-            return null;
-        }
-
-        choice = choice.toUpperCase();
-        const isValid = checkSelection(choice);
-        if (isValid) {
-            return choice;
-        }
-
-        promptMessage = "You can pick only ROCK, PAPER or SCISSORS";
-    }
 }
 
 // takes uppercased player and computer choice and return winner
@@ -76,17 +65,19 @@ function getWinner(playerSelection, computerSelection) {
     return winner;
 }
 
-// print result and add score
+// add score, output score and round result
 function afterRound(winner, playerSelection, computerSelection) {
     if (winner == PLAYER) {
-        console.log(`You Win! ${playerSelection} beats ${computerSelection}!`);
+        roundResultOutput.textContent = `You Win! ${playerSelection} beats ${computerSelection}!`;
         playerScore++;
     } else if (winner == COMPUTER) {
-        console.log(`You Lose! ${computerSelection} beats ${playerSelection}!`);
+        roundResultOutput.textContent = `You Lose! ${computerSelection} beats ${playerSelection}!`;
         computerScore++;
     } else {
-        console.log("It's Tie!");
+        roundResultOutput.textContent = "It's Tie!";
     }
+
+    scoreOutput.textContent = `Player ${playerScore} - Computer ${computerScore}`;
 }
 
 function playRound(playerSelection, computerSelection) {
@@ -95,49 +86,35 @@ function playRound(playerSelection, computerSelection) {
     afterRound(winner, playerSelection, computerSelection);
 }
 
-function printFinalResult() {
-    let result;
-
-    if (playerScore > computerScore) {
-        result = "Congratulations! You Win!";
-    } else if (playerScore < computerScore) {
-        result = "You Lose!";
+function handleGameOver() {
+    if (playerScore >= 5) {
+        finalResultOutput.textContent = `Congratulations! You Won!`;
+    } else if (computerScore >= 5) {
+        finalResultOutput.textContent = `You Lose!`;
     } else {
-        result = "Its Tie!";
+        return;
     }
 
-    console.log(`
-Player ${playerScore} - Computer ${computerScore}
-
-${result}
-
-`);
+    requireReset = true;
 }
 
-function resetScore() {
-    playerScore = 0;
-    computerScore = 0;
-}
-
-// play 5 rounds
-function game() {
-    for (let i = 0; i < 5; i++) {
-        const playerChoice = getPlayerChoice();
-        if (!playerChoice) {
-            return;
-        }
-
-        const computerChoice = getComputerChoice();
-
-        playRound(playerChoice, computerChoice);
+// play round on click
+function selectBtnHandler() {
+    if (requireReset) {
+        resetGame();
+        requireReset = false;
     }
 
-    printFinalResult();
-    resetScore();
+    const playerSelection = this.dataset.select;
+    const computerSelection = getComputerChoice();
+
+    playRound(playerSelection, computerSelection);
+    handleGameOver();
 }
 
-// start game
-let playerScore = 0,
-    computerScore = 0;
+// add events for select buttons
+const selectButtons = document.querySelectorAll(".select-btn");
 
-game();
+selectButtons.forEach(el => {
+    el.addEventListener("click", selectBtnHandler);
+});
